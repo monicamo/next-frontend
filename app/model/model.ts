@@ -16,3 +16,27 @@ export type Wallet = {
   _id: string;
   assets: WalletAsset[];
 };
+
+export type Order = {
+  _id: string; 
+  asset: Asset;
+  shares: number;
+  partial: number
+  price: number;
+  type: OrderType;
+  status: OrderStatus;
+};
+
+export enum OrderType {
+  BUY = 'BUY',
+  SELL = 'SELL',
+}
+
+export enum OrderStatus {
+  OPEN = 'OPEN',
+  PENDING = 'PENDING',
+  PARTIAL = 'PARTIAL',
+  CLOSED = 'CLOSED',
+  FAILED = 'FAILED',
+  CANCELED = 'CANCELED',
+}
