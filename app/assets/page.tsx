@@ -1,16 +1,22 @@
 import { Button, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
-import { Asset } from "../model/model";
 import { AssetShow } from "../components/AssetShow";
-
-export async function getAssets(): Promise<Asset[]> {
-  const response = await fetch(`http://localhost:3000/assets`);
-  
-  return response.json();
-}
+import { WalletList } from "../components/WalletList";
+import Link from "next/link";
+import { getAssets, getMyWallet } from "../queries/queries";
 
 export default async function AssetsListPage({searchParams}: {searchParams: Promise<{wallet_id: string}>}) {
  
   const { wallet_id } = await searchParams;
+
+  if (!wallet_id) {
+    return <WalletList />;
+  }
+
+  const wallet = await getMyWallet(wallet_id);
+
+  if (!wallet) {  
+    return <WalletList />;
+  }
 
   const assets = await getAssets();
   console.log("🚀 ~ AssetsListPage ~ assets:", assets)
@@ -35,7 +41,7 @@ export default async function AssetsListPage({searchParams}: {searchParams: Prom
                 </TableCell>
                 <TableCell>R$ {asset.price}</TableCell>
                 <TableCell>
-                  <Button color="light">Comprar/Vender</Button>
+                  <Button color="light" as={Link} href={`/assets/${asset.symbol}?wallet_id=${wallet_id}`}>Comprar/Vender</Button>
                 </TableCell>
               </TableRow>
             ))}
