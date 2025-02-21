@@ -13,8 +13,10 @@ export async function getMyWalletXXX(walletId: string): Promise<Wallet> {
 }
 
 export async function getMyWallet(walletId: string): Promise<Wallet> {
+  console.log("🚀 ~ getMyWallet ~ walletId:", walletId)
   const response = await fetch(`http://localhost:3000/wallets/${walletId}`);
 
+  console.log("🚀 ~ getMyWallet ~ response:", response)
   if (!response.ok) {
     throw new Error("Wallet not found");
   }
