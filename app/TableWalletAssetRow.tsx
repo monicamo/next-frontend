@@ -6,12 +6,13 @@ import { AssetShow } from "./components/AssetShow";
 import Link from "next/link";
 import { WalletAsset } from "./model/model";
 import { useAssetStore } from "./store";
+import { useShallow } from "zustand/react/shallow"; 
 
 export function TableWalletAssetRow(props: { walletAsset: WalletAsset, walletId: string; }) {
     const { walletAsset, walletId } = props;
     
-    const assetFound = useAssetStore((state) => 
-        state.assets.find((a) => a.symbol === walletAsset.asset.symbol)
+    const assetFound = useAssetStore(
+      useShallow((state) => state.assets.find((a) => a.symbol === walletAsset.asset.symbol))
     );
 
     const asset = assetFound || walletAsset.asset;
